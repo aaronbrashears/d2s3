@@ -23,14 +23,14 @@ We don't have immediate processing of our images with this workflow, but it's ve
 
 The above helper will generate the following similar HTML form, generating all of the appropriate field keys, policy, and signature based on your Amazon Web Services YAML configuration file.  The form parameter also accepts a class and id for further customization.  
 
-		<form action="https://YOUR_S3_BUCKET.s3.amazonaws.com/" method="post" enctype="multipart/form-data" style="display: inline;">
-		  <input type="hidden" name="key" value="uploads/${filename}">
-		  <input type="hidden" name="AWSAccessKeyId" value="YOUR_AWS_ACCESS_KEY"> 
-		  <input type="hidden" name="acl" value="public-read"> 
-		  <input type="hidden" name="success_action_redirect" value="/image_processing_url">
-		  <input type="hidden" name="policy" value="YOUR_POLICY_DOCUMENT_BASE64_ENCODED">
-		  <input type="hidden" name="signature" value="YOUR_CALCULATED_SIGNATURE">
-		  <input name="file" type="file"><input type="submit" value="Upload" class="button" id="upload-button">
+		<form action="https://YOUR_S3_BUCKET.s3.amazonaws.com/" method="post" enctype="multipart/form-data" style="display: inline;" \>
+		  <input type="hidden" name="key" value="uploads/${filename}" \>
+		  <input type="hidden" name="AWSAccessKeyId" value="YOUR_AWS_ACCESS_KEY" \> 
+		  <input type="hidden" name="acl" value="public-read" \> 
+		  <input type="hidden" name="success_action_redirect" value="/image_processing_url" \>
+		  <input type="hidden" name="policy" value="YOUR_POLICY_DOCUMENT_BASE64_ENCODED" \>
+		  <input type="hidden" name="signature" value="YOUR_CALCULATED_SIGNATURE" \>
+		  <input name="file" type="file"><input type="submit" value="Upload" class="button" id="upload-button" \>
 		</form>
 		
 ### Return HTTP GET request from Amazon made to the redirect you declared
@@ -55,7 +55,8 @@ The above helper will generate the following similar HTML form, generating all o
   * Accepts any text to represent the submit button for the form.  This allows for a very custom submit button.  If blank, it defaults to `<input type="submit" value="Upload">`
 * **:form => {:id => '', :class => '', :style => ''}** 
   * Accepts a hash of :class, :id, and :style to add customization to the form as a whole
-    
+* **:secure**
+  * If true, use https protocol to S3.
 
 ### **TODO**
 * Write tests (shame on me, I know...  they're coming)
