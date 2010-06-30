@@ -51,6 +51,8 @@ The above helper will generate the following similar HTML form, generating all o
   * Accepts time in the form of "3.hours" or "25.minutes".  If blank, it defaults to a 10 hour window before the policy on the upload expires
 * **:max_filesize** 
   * Accepts a max file size in the format of "5.megabytes".  If blank, it defaults to 1.megabyte
+* **:min_filesize** 
+  * Accepts a minimum file size in the format of "5.bytes".  If blank, it defaults to 1.byte
 * **:submit_button** 
   * Accepts any text to represent the submit button for the form.  This allows for a very custom submit button.  If blank, it defaults to `<input type="submit" value="Upload">`
 * **:form => {:id => '', :class => '', :style => ''}** 
