@@ -59,6 +59,8 @@ The above helper will generate the following similar HTML form, generating all o
   * Accepts a hash of :class, :id, and :style to add customization to the form as a whole
 * **:secure**
   * If true, use https protocol to S3.
+* **:cname**
+  * If true, use S3 CNAME uploads which require http://#{bucket}/ hostname. You will have to configure your DNS to contain a CNAME record for #{bucket} which points to #{bucket}.s3.amazonaws.com.
 
 ### **TODO**
 * Write tests (shame on me, I know...  they're coming)
