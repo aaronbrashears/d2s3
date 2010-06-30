@@ -36,15 +36,15 @@ module D2S3
         signature = b64_hmac_sha1(D2S3::S3Config.secret_access_key, policy)
         out = ""
         out << %(
-          <form action="#{protocol}://#{bucket}.s3.amazonaws.com/" method="post" enctype="multipart/form-data" id="#{options[:form][:id]}" class="#{options[:form][:class]}" style="#{options[:form][:style]}">
-          <input type="hidden" name="key" value="#{key}/${filename}">
-          <input type="hidden" name="AWSAccessKeyId" value="#{access_key_id}">
-          <input type="hidden" name="acl" value="#{acl}">
-          <input type="hidden" name="success_action_redirect" value="#{redirect}">
-          <input type="hidden" name="policy" value="#{policy}">
-          <input type="hidden" name="signature" value="#{signature}">
-          <input type="hidden" name="Content-Type" value="#{content_type}">
-          <input name="file" type="file">#{submit_button}
+          <form action="#{protocol}://#{bucket}.s3.amazonaws.com/" method="post" enctype="multipart/form-data" id="#{options[:form][:id]}" class="#{options[:form][:class]}" style="#{options[:form][:style]}" \>
+          <input type="hidden" name="key" value="#{key}/${filename}" \>
+          <input type="hidden" name="AWSAccessKeyId" value="#{access_key_id}" \>
+          <input type="hidden" name="acl" value="#{acl}" \>
+          <input type="hidden" name="success_action_redirect" value="#{redirect}" \>
+          <input type="hidden" name="policy" value="#{policy}" \>
+          <input type="hidden" name="signature" value="#{signature}" \>
+          <input type="hidden" name="Content-Type" value="#{content_type}" \>
+          <input name="file" type="file" \>#{submit_button}
           </form>
         )
     end
