@@ -61,6 +61,9 @@ The above helper will generate the following similar HTML form, generating all o
   * If true, use https protocol to S3.
 * **:cname**
   * If true, use S3 CNAME uploads which require http://#{bucket}/ hostname. You will have to configure your DNS to contain a CNAME record for #{bucket} which points to #{bucket}.s3.amazonaws.com.
+* **:filename**
+  * Allows the specification of the filename. If not used or set to nil, the client filename will be used. This allows the server code to generate known unique filename through the use of something like a uuid. Note that the filename portion is not validated and a malicious client can replace the server generated filename with anything of their liking.
+
 
 ### **TODO**
 * Write tests (shame on me, I know...  they're coming)
