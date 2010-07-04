@@ -46,7 +46,7 @@ The above helper will generate the following similar HTML form, generating all o
 * **:content_type** 
   * Accepts a standard content type, otherwise it will default to 'binary/octet-stream'.
 * **:redirect** 
-  * Directs the form where the GET request from Amazon should be made once the HTTP POST is successful. The redirect parameter will be treated like an [Addressable::Template](http://addressable.rubyforge.org/) with the parameters 'upload_uri', 'host', 'bucket', and 'key' available for substitution into the final uri.
+  * Directs the form where the GET request from Amazon should be made once the HTTP POST is successful. The url returned from amazon will automatically append 'bucket', 'key', and 'etag' parameters for use in reconstructing the full uri of the new S3 object.
 * **:acl** 
   * Accepts either 'public-read' or 'private'.  If blank, it defaults to 'public-read'.
 * **:expiration_date** 
