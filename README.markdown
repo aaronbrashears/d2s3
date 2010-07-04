@@ -1,6 +1,8 @@
 # **d2s3**
 d2s3 (direct to s3) is a simple Ruby on Rails helper that generates an upload form that will take a given file and upload it directly to your S3 bucket, bypassing your server.  This has various benefits, the biggest being that a large upload will not tie up your server from serving other requests.  This plugin is based on the instructions from the following Amazon tutorial: [http://developer.amazonwebservices.com/connect/entry.jspa?externalID=1434](http://developer.amazonwebservices.com/connect/entry.jspa?externalID=1434/ "Browser Uploads to S3 using HTML POST Forms")
 
+d2s3 now depends on the [Addressable](http://addressable.rubyforge.org/). Please ensure you have it in your installed gems. Suggestions on how to better declare this dependency or how to gracefully degrade are welcome.
+
 ### Why?
 This was built as a solution to a problem we had where images being uploaded to be processed by [Paperclip](http://thoughtbot.com/projects/paperclip "Thoughtbot - Paperclip") were consuming [Thin](http://code.macournoyer.com/thin/ "Thin - Another Web Server") servers so they were unable to process other requests.  
 
@@ -42,21 +44,21 @@ The above helper will generate the following similar HTML form, generating all o
 		
 ### Options:
 * **:content_type** 
-  * Accepts a standard content type, otherwise it will default to binary/octet-stream
+  * Accepts a standard content type, otherwise it will default to 'binary/octet-stream'.
 * **:redirect** 
-  * Directs the form where the GET request from Amazon should be made once the HTTP POST is successful
+  * Directs the form where the GET request from Amazon should be made once the HTTP POST is successful. The redirect parameter will be treated like an [Addressable::Template](http://addressable.rubyforge.org/) with the parameters 'upload_uri', 'host', 'bucket', and 'key' available for substitution into the final uri.
 * **:acl** 
-  * Accepts either 'public-read' or 'private'.  If blank, it defaults to 'public-read'
+  * Accepts either 'public-read' or 'private'.  If blank, it defaults to 'public-read'.
 * **:expiration_date** 
-  * Accepts time in the form of "3.hours" or "25.minutes".  If blank, it defaults to a 10 hour window before the policy on the upload expires
+  * Accepts time in the form of "3.hours" or "25.minutes".  If blank, it defaults to a 10 hour window before the policy on the upload expires.
 * **:max_filesize** 
-  * Accepts a max file size in the format of "5.megabytes".  If blank, it defaults to 1.megabyte
+  * Accepts a max file size in the format of "5.megabytes".  If blank, it defaults to '1.megabyte'.
 * **:min_filesize** 
-  * Accepts a minimum file size in the format of "5.bytes".  If blank, it defaults to 1.byte
+  * Accepts a minimum file size in the format of "5.bytes".  If blank, it defaults to '1.byte'.
 * **:submit_button** 
-  * Accepts any text to represent the submit button for the form.  This allows for a very custom submit button.  If blank, it defaults to `<input type="submit" value="Upload">`
+  * Accepts any text to represent the submit button for the form.  This allows for a very custom submit button.  If blank, it defaults to `<input type="submit" value="Upload">`.
 * **:form => {:id => '', :class => '', :style => ''}** 
-  * Accepts a hash of :class, :id, and :style to add customization to the form as a whole
+  * Accepts a hash of :class, :id, and :style to add customization to the form as a whole.
 * **:secure**
   * If true, use https protocol to S3.
 * **:cname**
