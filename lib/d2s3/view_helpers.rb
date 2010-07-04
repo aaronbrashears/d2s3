@@ -1,4 +1,5 @@
 require 'base64'
+require 'addressable/template'
 
 module D2S3
   module ViewHelpers
@@ -21,11 +22,24 @@ module D2S3
 
       # CNAME cannot use https and bucket mut be the same as the
       # Host headeraccording to S3 documentation.
-      host = cname ? host = "http://#{bucket}/" : "#{protocol}://#{bucket}.s3.amazonaws.com/"
+      host = cname ? host = "#{bucket}" : "#{bucket}.s3.amazonaws.com"
+      file_key = "#{key}/#{filename}"
+      upload_uri = "#{protocol}://#{host}/#{file_key}"
 
       options[:form] ||= {}
       options[:form][:id] ||= 'upload-form'
       options[:form][:class] ||= 'upload-form'
+
+      # Process they query string for the redirect url.
+      replace = {
+        :upload_uri => upload_uri,
+        :host => host,
+        :bucket => bucket,
+        :key => file_key,
+      }
+      redirect_str = Addressable::URI.unencode(redirect)
+      redirect_template = Addressable::Template.new(redirect_str)
+      redirect_uri = redirect_template.expand(replace)
 
       policy = Base64.encode64(
         "{'expiration': '#{expiration_date}',
@@ -33,7 +47,7 @@ module D2S3
             {'bucket': '#{bucket}'},
             ['starts-with', '$key', '#{key}'],
             {'acl': '#{acl}'},
-            {'success_action_redirect': '#{redirect}'},
+            {'success_action_redirect': '#{redirect_uri}'},
             ['starts-with', '$Content-Type', '#{content_type}'],
             ['content-length-range', #{min_filesize}, #{max_filesize}]
           ]
@@ -42,11 +56,11 @@ module D2S3
         signature = b64_hmac_sha1(D2S3::S3Config.secret_access_key, policy)
         out = ""
         out << %(
-          <form action="#{host}" method="post" enctype="multipart/form-data" id="#{options[:form][:id]}" class="#{options[:form][:class]}" style="#{options[:form][:style]}" \>
-          <input type="hidden" name="key" value="#{key}/#{filename}" \>
+          <form action="#{protocol}://#{host}/" method="post" enctype="multipart/form-data" id="#{options[:form][:id]}" class="#{options[:form][:class]}" style="#{options[:form][:style]}" \>
+          <input type="hidden" name="key" value="#{file_key}" \>
           <input type="hidden" name="AWSAccessKeyId" value="#{access_key_id}" \>
           <input type="hidden" name="acl" value="#{acl}" \>
-          <input type="hidden" name="success_action_redirect" value="#{redirect}" \>
+          <input type="hidden" name="success_action_redirect" value="#{redirect_uri}" \>
           <input type="hidden" name="policy" value="#{policy}" \>
           <input type="hidden" name="signature" value="#{signature}" \>
           <input type="hidden" name="Content-Type" value="#{content_type}" \>
