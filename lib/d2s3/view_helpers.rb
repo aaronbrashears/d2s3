@@ -32,6 +32,10 @@ module D2S3
         @action = "#{@protocol}://#{@host}/"
       end
 
+      def attributes
+        out = "action=\"#{@action}\" method=\"POST\" enctype=\"multipart/form-data\""
+      end
+
       def elements
         policy = Base64.encode64(
           "{'expiration': '#{@expiration_date}',
